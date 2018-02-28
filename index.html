@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<style type="text/css">
+*{
+    margin:0;
+    padding: 0;
+}
+.bj{
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: -1;
+	opacity: 0.5;
+}
+</style>
+<body>
+	<!-- <img id="tulip" class="bj" src="bj.png"> -->
+
+	<canvas id="myCanvas" width="6616" height="2480"></canvas>
+	<script type="text/javascript">
+	window.onload = function(){
+		var indexJson = {
+"stage": [
+"yjq",
+"jhq",
+"plq",
+"jqq"
+],
+"items": [
+"1",
+"1",
+"1",
+"1 + 1"
+],
+"stage_content": [
+{
+"content": [
+{
+"label": "2",
+"content": [
+"22"
+]
+},
+{
+"label": "3",
+"content": [
+"3"
+]
+},
+{
+"label": "4",
+"content": [
+"4"
+]
+},
+{
+"label": "5",
+"content": [
+"5~5",
+"5"
+]
+},
+{
+"label": "6",
+"content": [
+"6"
+]
+},
+{
+"label": "7",
+"content": [
+"7",
+]
+}
+]
+},
+{
+"content": [
+{
+"label": "8",
+"content": [
+"8"
+]
+},
+{
+"label": "8",
+"content": [
+"8"
+]
+},
+{
+"label": "9",
+"content": [
+"9"
+]
+},
+{
+"label": "9",
+"content": [
+"每次1-9"
+]
+},
+{
+"label": "1",
+"content": [
+"1"
+]
+},
+{
+"label": "1",
+"content": [
+"1"
+]
+}
+]
+},
+{
+"content": [
+{
+"label": "1",
+"content": [
+"1"
+]
+},
+{
+"label": "12",
+"content": [
+"12"
+]
+},
+{
+"label": "14",
+"content": [
+"155"
+]
+},
+{
+"label": "1",
+"content": [
+"1~15分钟即可",
+"1"
+]
+},
+{
+"label": "贮存方法",
+"content": [
+"23"
+]
+},
+{
+"label": "4",
+"content": [
+"523",
+"12"
+]
+}
+]
+},
+{
+"content": [
+{
+"label": "zx",
+"content": [
+"qw"
+]
+},
+{
+"label": "xs",
+"content": [
+"qw + qwe"
+]
+},
+{
+"label": "功效",
+"content": [
+"vv",
+"s",
+"fds"
+]
+},
+{
+"label": "使用方法",
+"content": [
+"vx:2）",
+"xcv-sdf",
+"sdf",
+"sdf",
+"qwe"
+]
+},
+{
+"label": "asdgd",
+"content": [
+"dfgh",
+"jtrr"
+]
+},
+{
+"label": "xc",
+"content": [
+"bfdf",
+"xcv",
+"xcv",
+"yhy",
+"。"
+]
+}
+]
+}
+]
+}
+console.log(indexJson)
+		var canvas = document.getElementById('myCanvas');
+		var fd = canvas.getContext('2d');
+		var img = new Image();
+        img.src="title.png";
+        img.onload = function(){
+            fd.drawImage(img,759,177);
+        }
+        var img01 = new Image();
+        img01.src = 'fdqd.png';
+        img01.onload = function(){
+            fd.drawImage(img01,617,330);
+        }
+
+        //  设置 福袋的 经期  和 位置
+        var fdTitleList;
+        for (var i = 0; i < indexJson.stage_content.length; i++) {
+        	getFdTitleList(i)
+        	getFdTitleRight(i)
+        }
+
+        function getFdTitleList (i) {
+        	var imgTitleList = new Image();
+	        imgTitleList.src = indexJson.stage[i] + '.png';
+	        var num = i * 148 + 523
+	        imgTitleList.onload = function(){
+	            fd.drawImage(imgTitleList,95,num);
+	        }
+        }
+
+        function getFdTitleRight (i) {
+        	fd.fillStyle = '#000';   // 文字填充颜色  
+        	var num = i * 148 + 584
+	        fd.font = "58px FZYingXueS-R-GB" 
+	        fd.fillText('<' + indexJson.items[i] + '>',456,num);
+	        var mNum = i * 148 + 639
+	        fd.strokeStyle="#fcece4";
+	        fd.moveTo(447,mNum);
+			fd.lineTo(1560,mNum);
+			fd.stroke();
+        }
+        var z = 0;
+        // 
+        for (var c = 0; c < indexJson.stage_content.length; c++) {
+        	conentImgList(c, z)
+        	z = conentFor (c, z)
+
+        }
+
+        //  设置 经前期 图片 位置
+        function conentImgList (c, z) {
+        	var imgTitleList = new Image();
+	        imgTitleList.src = indexJson.stage[c] + '_1.png';
+	        var num = (c + 1) * 840 + 344 + z * 80
+	        if (num > 4400) {
+	        	var titleListImgNum = 95 + 1652 * 2
+	        	num = num - 2145 * 2
+	        } else if (num > 2303) {
+	        	var titleListImgNum = 1747
+	        	num = num - 2188
+	        } else {
+	        	var titleListImgNum = 95
+	        }
+	        imgTitleList.onload = function(){
+	            fd.drawImage(imgTitleList, titleListImgNum, num);
+	        }
+        }
+        
+        //  设置 文字显示
+        function conentFor (c, z) {
+        	for(var k = 0; k < indexJson.stage_content[c].content.length; k++) {
+                conentListJsonText(c, k, z, indexJson.stage_content[c].content[k])
+                if (indexJson.stage_content[c].content[k].content.length > 1) {
+                    z = z + indexJson.stage_content[c].content[k].content.length - 1;
+                }
+        	}
+        	return z;
+        }
+        
+        function conentListJsonText (c, k, z, text) {
+        	// conent 右侧文字
+            fd.fillStyle = '#333333';
+            fd.font = "42px PingFang SC";
+            for (var i = 0; i < text.content.length; i++) {
+                if (i == 0) {
+                    var Rnum = k * 103 + 561 + (c + 1) * 840 + z * 81;
+                } else {
+                    var Rnum = k * 103 + 561 + (c + 1) * 840 + i * 81 + z * 81;
+                }
+                if (Rnum > 4606) {
+                    var conentListJsonTextRight = 3308 + 385;
+                    Rnum = Rnum - 2250 * 2
+                } else if (Rnum > 2303) {
+                    var conentListJsonTextRight = 385 + 1654;
+                    Rnum = Rnum - 2188 
+                } else {
+                    var conentListJsonTextRight = 385;
+                }
+                fd.fillText(text.content[i], conentListJsonTextRight, Rnum);
+            }
+
+	        // conent 左侧 文字
+        	fd.fillStyle = '#333';
+            
+            var num = k * 103 + 563 + z * 81 + (c + 1) * 840;
+        	
+        	if (num > 4606) {
+        		var conentListJsonTextLeft = 3308 + 75;
+        		num = num - 2250 * 2
+        	} else if (num > 2303) {
+        		var conentListJsonTextLeft = 75 + 1654
+        		num = num - 2188
+        	} else {
+        		var conentListJsonTextLeft = 75;
+        	}
+        	
+	        fd.font = "50px FZYingXueS-R-GB" 
+	        fd.fillText('【'+ text.label + '】', conentListJsonTextLeft, num);
+
+
+	        if (c == 3 && k == indexJson.stage_content[c].content.length - 1) {
+	        	var imgQR = new Image();
+		        imgQR.src = 'qr.png';
+		        imgQR.onload = function(){
+		            fd.drawImage(imgQR, conentListJsonTextLeft + 596, num + 500);
+		        }
+		        fd.fillStyle = '#000';   // 文字填充颜色  
+		        fd.font = "50px FZYingXueS-R-GB" 
+		        fd.fillText('asdzx', 3880, num + 900);
+		        fd.fillText('wrsg', 4000, num + 990);
+	        }
+        }
+
+
+        /****绘制自动换行的字符串****/
+		function drawText(t,x,y,w){
+		    var chr = t.split("")
+		    var temp = "";              
+		    var row = [];
+		    for(var a = 0; a < chr.length; a++){
+		        if( fd.measureText(temp).width < w ){
+		            ;
+		        }
+		        else{
+		            row.push(temp);
+		            temp = "";
+		        }
+		        temp += chr[a];
+		    }
+		    row.push(temp);
+		    for(var b = 0; b < row.length; b++){
+		        fd.fillText(row[b],x,y+b*81);
+		    }
+		}
+
+		/****绘制 封面姓名****/
+        fd.fillStyle = '#e48b5b';   // 文字填充颜色  
+        fd.font = "100 58px FZYanSongS-R-GB" 
+        fd.globalCompositeOperation = 'destination-over'
+        var fmName = 'xcviw';
+        var fmNameChr = fmName.split("");
+        var fmNameTemp = "";
+        var fmNameRow = [];
+
+        if (fmNameChr.length > 6) {
+            for (var i = 0; i < 6 ; i++) {
+                fmNameTemp += fmNameChr[i]
+                fmNameRow.push(fmNameTemp);
+                fmNameTemp = ''
+            }
+        } else {
+            for (var i = 0; i < fmNameChr.length ; i++) {
+                fmNameTemp += fmNameChr[i]
+                fmNameRow.push(fmNameTemp);
+                fmNameTemp = ''
+            }
+        }
+        for (var b = 0; b < fmNameRow.length; b++) {
+            fd.fillText(fmNameRow[b], 5832, 1080 + b * 60);
+        }
+       
+        /****绘制 封面图片****/
+		var imgTitleFm = new Image();
+        imgTitleFm.src = 'fm.png';
+        imgTitleFm.onload = function(){
+            fd.drawImage(imgTitleFm, 4962, 0);
+        }
+
+        
+        /****绘制 封面症状类型****/
+        fd.fillStyle = '#e48b5b';   // 文字填充颜色  
+        fd.font = "58px FZYanSongS-R-GB" 
+        fd.globalCompositeOperation = 'destination-over'
+        fd.fillText('qqrr', 5572, 1600);
+
+        /****绘制 封面编号****/
+        fd.fillStyle = '#ffffff';   // 文字填充颜色  
+        fd.font = "300 58px PingFang SC" 
+        fd.globalCompositeOperation = 'destination-over'
+        fd.fillText('asdxc', 6116, 2338);
+	}
+	</script>
+</body>
+</html>
